@@ -15,11 +15,11 @@ abstract class AuthProvider {
     required String password,
   });
 
-  Future<void> requestOTP({
+  Future<String?> requestOTP({
     required String mobile,
+    required Function(String verificationId, int? resendToken) codeSent,
     required Function(PhoneAuthCredential) verificationCompleted,
-    required Function(String, int?) codeSent,
-    required Function(String) codeAutoRetrievalTimeout,
+    required Function(String verificationId) codeAutoRetrievalTimeout,
   });
 
   Future<PhoneAuthCredential> verifyOTP({

@@ -16,19 +16,19 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _email;
+  late final TextEditingController _mobile;
   late final TextEditingController _password;
 
   @override
   void initState() {
-    _email = TextEditingController();
+    _mobile = TextEditingController();
     _password = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _email.dispose();
+    _mobile.dispose();
     _password.dispose();
     super.dispose();
   }
@@ -61,65 +61,22 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomTextFormField(
-                  controller: _email,
-                  hint: 'toeato@toeato.com',
-                  iconData: Icons.email,
-                  validator: (val) => val?.isValidEmail(val),
-                ),
-                const SizedBox(height: 12),
-                CustomTextFormField(
-                  controller: _password,
-                  hint: '******',
-                  iconData: Icons.lock,
-                  validator: (val) => val?.isValidPassword(val),
+                  controller: _mobile,
+                  hint: '98XXXXXXXX',
+                  iconData: Icons.phone,
+                  validator: (val) => val?.isValidPhone(val),
                 ),
                 const SizedBox(height: 12),
                 CustomMaterialButton(
                   title: 'Login',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      final email = _email.text.trim();
-                      final password = _password.text.trim();
+                      final mobile = _mobile.text.trim();
                       context
                           .read<AuthBloc>()
-                          .add(AuthEventLogin(email, password));
+                          .add(AuthEventLogin(mobile));
                     }
                   },
-                ),
-                const SizedBox(height: 12),
-                Center(
-                  child: Text(
-                    'OR',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                CustomMaterialButton(
-                  title: 'Continue with Mobile Number',
-                  onPressed: () async {
-                    context
-                        .read<AuthBloc>()
-                        .add(const AuthEventShouldRequestOTP());
-                  },
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text('Don\'t have account? '),
-                    GestureDetector(
-                      onTap: () {
-                        context
-                            .read<AuthBloc>()
-                            .add(const AuthEventShouldRegister());
-                      },
-                      child: const Text(
-                        'Create One',
-                        style: TextStyle(decoration: TextDecoration.underline),
-                      ),
-                    )
-                  ],
                 ),
               ],
             ),

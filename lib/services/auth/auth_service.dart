@@ -42,16 +42,16 @@ class AuthService implements AuthProvider {
   Future<void> initialize() => provider.initialize();
 
   @override
-  Future<void> requestOTP({
+  Future<String?> requestOTP({
     required String mobile,
+    required Function(String verificationId, int? resendToken) codeSent,
     required Function(PhoneAuthCredential) verificationCompleted,
-    required Function(String, int?) codeSent,
-    required Function(String) codeAutoRetrievalTimeout,
+    required Function(String verificationId) codeAutoRetrievalTimeout,
   }) =>
       provider.requestOTP(
         mobile: mobile,
-        verificationCompleted: verificationCompleted,
         codeSent: codeSent,
+        verificationCompleted: verificationCompleted,
         codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
       );
 

@@ -105,13 +105,15 @@ class FirebaseAuthProvider implements AuthProvider {
 
   // request OTP for user creation
   @override
-  Future<void> requestOTP({
+  Future<String?> requestOTP({
     required String mobile,
-    required Function(PhoneAuthCredential) verificationCompleted,
-    required Function(String, int?) codeSent,
-    required Function(String) codeAutoRetrievalTimeout,
+    required Function(String verificationId, int? resendToken) codeSent,
+    required Function(PhoneAuthCredential phoneAuthCredential)
+        verificationCompleted,
+    required Function(String verificationId) codeAutoRetrievalTimeout,
   }) async {
     try {
+      String? id;
       await _auth.verifyPhoneNumber(
         phoneNumber: '+977$mobile',
         codeSent: codeSent,
@@ -121,14 +123,9 @@ class FirebaseAuthProvider implements AuthProvider {
         },
         codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
       );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        throw UserNotFoundAuthException();
-      } else if (e.code == 'wrong-password') {
-        throw WrongPasswordAuthException();
-      } else {
-        throw GenericAuthException();
-      }
+      return id;
+    } on FirebaseAuthException catch (_) {
+      throw GenericAuthException();
     } catch (_) {
       throw GenericAuthException();
     }
