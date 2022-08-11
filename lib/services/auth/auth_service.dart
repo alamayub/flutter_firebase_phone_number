@@ -40,4 +40,36 @@ class AuthService implements AuthProvider {
 
   @override
   Future<void> initialize() => provider.initialize();
+
+  @override
+  Future<void> requestOTP({
+    required String mobile,
+    required Function(PhoneAuthCredential) verificationCompleted,
+    required Function(String, int?) codeSent,
+    required Function(String) codeAutoRetrievalTimeout,
+  }) =>
+      provider.requestOTP(
+        mobile: mobile,
+        verificationCompleted: verificationCompleted,
+        codeSent: codeSent,
+        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+      );
+
+  @override
+  Future<PhoneAuthCredential> verifyOTP({
+    required String verificationId,
+    required String otp,
+  }) =>
+      provider.verifyOTP(
+        verificationId: verificationId,
+        otp: otp,
+      );
+
+  @override
+  Future<User> loginWithMobileCred({
+    required PhoneAuthCredential phoneAuthCredential,
+  }) =>
+      provider.loginWithMobileCred(
+        phoneAuthCredential: phoneAuthCredential,
+      );
 }

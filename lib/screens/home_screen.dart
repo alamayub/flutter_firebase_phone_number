@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase_phone_number/blocs/auth/auth_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,11 +19,38 @@ class HomeScreen extends StatelessWidget {
           height: 60,
           padding: const EdgeInsets.all(16),
           child: MaterialButton(
-            onPressed: () {},
+            onPressed: () async {
+              final res = await showLogoutDialog(context);
+              if (res == true) {
+                // ignore: use_build_context_synchronously
+                context.read<AuthBloc>().add(const AuthEventLogout());
+              }
+            },
             child: const Text('Logout'),
           ),
         ),
       ),
     );
   }
+}
+
+Future<bool> showLogoutDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        content: const Text('Are you sure, you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Logout'),
+          )
+        ],
+      );
+    },
+  ).then((value) => value ?? false);
 }

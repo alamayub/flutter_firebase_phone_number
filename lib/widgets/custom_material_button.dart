@@ -13,6 +13,7 @@ class CustomMaterialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       height: 42,
+      minWidth: double.infinity,
       elevation: 0,
       focusElevation: 0,
       hoverElevation: 0,

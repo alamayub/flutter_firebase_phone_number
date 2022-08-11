@@ -44,3 +44,21 @@ class AuthStateRegistering extends AuthState {
     required bool isLoading,
   }) : super(isLoading: isLoading);
 }
+
+class AuthStateRequestOTP extends AuthState {
+  final Exception? exception;
+  const AuthStateRequestOTP({
+    required this.exception,
+    required bool isLoading,
+  }) : super(isLoading: isLoading);
+}
+
+class AuthStateVerifyOTP extends AuthState {
+  final String verificationId;
+  final Exception? exception;
+  const AuthStateVerifyOTP({
+    required this.verificationId,
+    required this.exception,
+    required bool isLoading,
+  }) : super(isLoading: isLoading);
+}

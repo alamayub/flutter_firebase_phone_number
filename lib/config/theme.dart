@@ -71,7 +71,7 @@ ThemeData theme() {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     appBarTheme: const AppBarTheme(
       elevation: 0,
-      titleSpacing: 0,
+      // titleSpacing: 0,
     ),
   );
 }

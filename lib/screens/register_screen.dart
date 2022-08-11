@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/message_dialog.dart';
 import '../../helper/extension/validator.dart';
 import '../blocs/auth/auth_bloc.dart';
-import '../services/auth_exception.dart';
+import '../services/auth/auth_exception.dart';
 import '../widgets/custom_form_text_field.dart';
 import '../widgets/custom_material_button.dart';
 
@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           padding: const EdgeInsets.all(16),
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

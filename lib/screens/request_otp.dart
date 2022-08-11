@@ -7,29 +7,26 @@ import '../services/auth/auth_exception.dart';
 import '../widgets/custom_form_text_field.dart';
 import '../widgets/custom_material_button.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RequestOTPScreen extends StatefulWidget {
+  const RequestOTPScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RequestOTPScreen> createState() => _RequestOTPScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RequestOTPScreenState extends State<RequestOTPScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _email;
-  late final TextEditingController _password;
+  late final TextEditingController _mobile;
 
   @override
   void initState() {
-    _email = TextEditingController();
-    _password = TextEditingController();
+    _mobile = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _email.dispose();
-    _password.dispose();
+    _mobile.dispose();
     super.dispose();
   }
 
@@ -49,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Login'),
+          title: const Text('Login With Mobile Number'),
         ),
         body: Container(
           padding: const EdgeInsets.all(16),
@@ -61,28 +58,20 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomTextFormField(
-                  controller: _email,
-                  hint: 'toeato@toeato.com',
-                  iconData: Icons.email,
-                  validator: (val) => val?.isValidEmail(val),
-                ),
-                const SizedBox(height: 12),
-                CustomTextFormField(
-                  controller: _password,
-                  hint: '******',
-                  iconData: Icons.lock,
-                  validator: (val) => val?.isValidPassword(val),
+                  controller: _mobile,
+                  hint: '98XXXXXXXX',
+                  iconData: Icons.mobile_friendly,
+                  validator: (val) => val?.isValidPhone(val),
                 ),
                 const SizedBox(height: 12),
                 CustomMaterialButton(
                   title: 'Login',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      final email = _email.text.trim();
-                      final password = _password.text.trim();
+                      final mobile = _mobile.text.trim();
                       context
                           .read<AuthBloc>()
-                          .add(AuthEventLogin(email, password));
+                          .add(AuthEventRequestOTP(mobile: mobile));
                     }
                   },
                 ),
@@ -95,11 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 12),
                 CustomMaterialButton(
-                  title: 'Continue with Mobile Number',
+                  title: 'Continue with Email & Password',
                   onPressed: () async {
-                    context
-                        .read<AuthBloc>()
-                        .add(const AuthEventShouldRequestOTP());
+                    context.read<AuthBloc>().add(const AuthEventLogout());
                   },
                 ),
                 const SizedBox(height: 12),
